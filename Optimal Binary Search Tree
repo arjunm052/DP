@@ -1,0 +1,45 @@
+#include<stdio.h>
+#define INF 99999
+int sum(int freq[],int i,int j){
+	int k,fsum=0;
+	for(k=i;k<=j;k++)
+	fsum+=freq[k];
+	return fsum;
+}
+
+int obst(int keys[],int freq[],int n){
+	int cost[n][n],L,r,i,j;
+	for(i=0;i<n;i++)
+	cost[i][i]=freq[i];
+	
+	for(L=2;L<=n;L++){
+		for(i=0;i<=n-L+1;i++){
+			int j=i+L-1;
+			cost[i][j]=INF;
+			
+			for(r=i;r<=j;r++){
+				int c=((r>i) ? cost[i][r-1] : 0) + ((r<j) ? cost[r+1][j] : 0) + sum(freq,i,j);
+				if(c<cost[i][j])
+				cost[i][j]=c;
+			}
+		}
+	}
+	
+	return cost[0][n-1];
+}
+
+int main(){
+	int n,i;
+	printf("Enter no. of Keys: ");
+	scanf("%d",&n);
+	int keys[n],freq[n];
+	for(i=0;i<n;i++){
+		printf("Enter Value of Key %d :",i+1);
+		scanf("%d",&keys[i]);
+		printf("Enter Frequency of key %d :",i+1);
+		scanf("%d",&freq[i]);
+	}
+	printf("Cost of Optimal Search Tree is: %d",obst(keys,freq,n));
+	return 0;
+	
+}
