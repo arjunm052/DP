@@ -1,5 +1,7 @@
 #include<stdio.h>
 #define INF 99999
+
+//Function to get sum of Frequency array from index i to j
 int sum(int freq[],int i,int j){
 	int k,fsum=0;
 	for(k=i;k<=j;k++)
@@ -7,17 +9,33 @@ int sum(int freq[],int i,int j){
 	return fsum;
 }
 
+//Function to calculate minimum cost of a Binary Search Tree
+
 int obst(int keys[],int freq[],int n){
-	int cost[n][n],L,r,i,j;
-	for(i=0;i<n;i++)
+	
+	int cost[n][n]  //Auxilary array to store the results
+			//cost[i][j]=Optimal cost of BST that can be formed from keys i to j
+			//cost[0][n-1] will store the result
+	
+	int L,r,i,j;    
+	
+	//For a single key cost is equal to the frequency of that key
+	for(i=0;i<n;i++)		
 	cost[i][i]=freq[i];
 	
+	//Now we consider chains of length 2,3,4....
+	//L is the chain length
 	for(L=2;L<=n;L++){
+		
+		//i is selecting the row
 		for(i=0;i<=n-L+1;i++){
-			int j=i+L-1;
+			
+			int j=i+L-1;  //select column j using i and L
 			cost[i][j]=INF;
 			
+			//Make all keys in interval [i...j] as root
 			for(r=i;r<=j;r++){
+			//c is equal to the cost when keys[r] becomes the root 
 				int c=((r>i) ? cost[i][r-1] : 0) + ((r<j) ? cost[r+1][j] : 0) + sum(freq,i,j);
 				if(c<cost[i][j])
 				cost[i][j]=c;
