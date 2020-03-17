@@ -1,0 +1,56 @@
+#include<stdio.h>
+#define INF 99999
+
+void print(int n,int arr[][n]){
+	int i,j;
+	
+  for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			if(arr[i][j]==INF)
+			printf("INF\t");
+			else
+			printf("%d\t",arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void allpair(int n,int arr[][n]){
+	int i,j,k;
+	int dist[n][n];
+	
+  for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			dist[i][j]=arr[i][j];
+		}
+	}
+	
+	for(k=0;k<n;k++){
+		for(i=0;i<n;i++){
+			for(j=0;j<n;j++){
+				if(dist[i][k]+dist[k][j]<dist[i][j])
+				dist[i][j]=dist[i][k]+dist[k][j];		
+			}
+		}
+	}
+	print(n,dist);
+}
+
+int main(){
+	int i,j,n;
+	printf("Enter the no. of cities: ");
+	scanf("%d",&n);
+	int arr[n][n];
+	printf("Enter the adjacency matrix: ");
+	printf("\nEnter -1 if no path exists\n");
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			scanf("%d",&arr[i][j]);
+			if(arr[i][j]==-1)
+			arr[i][j]=INF;
+		}
+	}
+	printf("\n\nShortest Path Matrix: \n");
+	allpair(n,arr);
+	return 0;
+}
