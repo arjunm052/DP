@@ -1,0 +1,35 @@
+#include<stdio.h>
+#define MIN(a,b) (a<b) ? a : b;
+
+
+int change(int c[],int n,int amt){
+	int i,j,max=amt+1;
+	int dp[max];
+	for(i=1;i<max;i++)
+	dp[i]=max;
+	dp[0]=0;
+	
+	for(i=1;i<=amt;i++){
+		for(j=1;j<=n;j++){
+			if(i>=c[j]){
+				dp[i]=MIN(dp[i],dp[i-c[j]]+1);
+			}
+		}
+	}
+	return dp[amt]>amt?-1:dp[amt];
+}
+
+int main(){
+	int n,i,amt;
+	printf("Enter the total no. of denominations: ");
+	scanf("%d",&n);
+	int c[n+1];
+	printf("Enter the denominations: ");
+	for(i=1;i<=n;i++){
+		scanf("%d",&c[i]);
+	}
+	printf("Enter the amount to be generated: ");
+	scanf("%d",&amt);
+	printf("Coins needed : %d",change(c,n,amt));
+	return 0;
+}
