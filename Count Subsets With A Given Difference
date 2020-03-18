@@ -3,6 +3,12 @@
 Given an array of elements n and a integer diff, find the total no. of 
 subsets possible when array is partitioned into two different subsets.
 Similiar to Minimum Subset Sum Difference
+
+Can also be asked as a Target Sum Problem.
+Given an array of elements n, assign a sign +/- to all the numbers such that the addition of all 
+the resultant numbers is equal to a given integer SUM. It is basically the same problem as we 
+just have to form 2 subsets (one with positive sign and other with negative sign) and their 
+difference is given as the SUM.
 */
 
 #include<stdio.h>
