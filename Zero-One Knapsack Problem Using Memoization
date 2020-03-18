@@ -1,0 +1,44 @@
+#include<stdio.h>
+#define MAX(a,b) (a>b) ? a : b;
+int dp[100][1000];
+
+void initialize(){
+	int i,j;
+	for(i=0;i<100;i++){
+		for(j=0;j<1000;j++){
+			dp[i][j]=-1;
+		}
+	}
+} 
+
+int knapsack(int wt[],int val[],int W,int n){
+	if(W==0 || n==0)
+	return 0;
+	
+	if(dp[n][W]!=-1)
+	return dp[n][W];
+	
+	if(wt[n-1]<=W){
+		return dp[n][W]=MAX(val[n-1]+knapsack(wt,val,W-wt[n-1],n-1),knapsack(wt,val,W,n-1));
+	}	
+	else if(wt[n-1]>W)
+	return dp[n][W]=knapsack(wt,val,W,n-1);
+}
+
+int main(){
+	initialize();
+	int n,i,cap;
+	printf("Enter the no. of objects: ");
+	scanf("%d",&n);
+	int wt[n],val[n];
+	for(i=0;i<n;i++){
+		printf("Enter the Weight of Object %d: ",i+1);
+		scanf("%d",&wt[i]);
+		printf("Enter the Profit of Object %d: ",i+1);
+		scanf("%d",&val[i]);
+	}
+	printf("Enter the total capacity of Knapsack: ");
+	scanf("%d",&cap);
+	printf("Max Profit: %d",knapsack(wt,val,cap,n));
+	return 0;
+}
