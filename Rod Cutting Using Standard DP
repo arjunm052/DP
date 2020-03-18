@@ -1,0 +1,43 @@
+//Rod Cutting Problem
+
+#include<stdio.h>
+#define MAX(a,b) (a>b) ? a : b;
+
+
+int rodcutting(int pro[],int n){
+	int i,j;
+	int dp[n+1][n+1];
+	
+	//initialize
+	for(i=0;i<=n;i++){
+		for(j=0;j<=n;j++){
+			if(i==0 || j==0)
+			dp[i][j]=0;
+		}
+	}
+	
+	for(i=1;i<=n;i++){
+		for(j=1;j<=n;j++){
+			if(i<=j){
+				dp[i][j]=MAX(dp[i-1][j],pro[i-1]+dp[i][j-i]);
+			}
+			else
+				dp[i][j]=dp[i-1][j];
+		}
+	}
+	return dp[n][n];
+}
+
+int main(){
+	int n,i;
+	printf("Enter the length of the rod: ");
+	scanf("%d",&n);
+	int pro[n];
+	for(i=0;i<n;i++){
+		printf("Enter profit for %d unit of length: ",i+1);
+		scanf("%d",&pro[i]);
+	}
+	printf("Maximum Profit: %d",rodcutting(pro,n));
+	
+	return 0;
+}
