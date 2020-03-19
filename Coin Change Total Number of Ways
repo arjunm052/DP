@@ -1,0 +1,39 @@
+//Total Ways to make coin change
+//Same as unbounded knapsack..Instead of i-1 we just do i because after we select a coin we may decide to chose it again
+
+#include<stdio.h>
+
+int coinways(int coins[],int n,int sum){
+	int i,j,dp[n+1][sum+1];
+
+	//initialization
+	for(i=0;i<=n;i++)
+	dp[i][0]=1;
+	for(i=1;i<=sum;i++)
+	dp[0][i]=0;
+
+	for(i=1;i<=n;i++){
+		for(j=1;j<=sum;j++){
+			if(coins[i-1]<=j){
+				dp[i][j]=dp[i-1][j]+dp[i][j-coins[i-1]];
+			}
+			else
+				dp[i][j]=dp[i-1][j];
+		}
+	}
+	return dp[n][sum];
+}
+
+int main(){
+	int n,i,amt;
+	printf("Enter the total no. of denominations: ");
+	scanf("%d",&n);
+	int coins[n];
+	printf("Enter the denominations: ");
+	for(i=0;i<n;i++)
+	scanf("%d",&coins[i]);
+	printf("Enter the amount: ");
+	scanf("%d",&amt);
+	printf("Total No. of Ways: %d",coinways(coins,n,amt));
+	return 0;
+}
