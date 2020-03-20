@@ -1,0 +1,42 @@
+#include<stdio.h>
+#define MAX(a,b) (a>b) ? a : b;
+
+int SCS(char *X,char *Y,int m,int n){
+	int i,j,k=0;
+	int dp[m+1][n+1];
+		
+	//Initialization
+	for(i=0;i<=m;i++){
+		for(j=0;j<=n;j++){
+			if(i==0 || j==0)
+			dp[i][j]=0;
+		}
+	}
+	
+	for(i=1;i<=m;i++){
+		for(j=1;j<=n;j++){
+			if(X[i-1]==Y[j-1])
+			dp[i][j]=1+dp[i-1][j-1];
+			
+			else
+			dp[i][j]=MAX(dp[i-1][j],dp[i][j-1]);
+		}
+	}
+	return m+n-dp[m][n];
+}
+
+int main(){
+	int m,n;
+	printf("Enter the length of First string: ");
+	scanf("%d",&m);
+	char A[m];
+	printf("Enter the First String: ");
+	scanf("%s",A);
+	printf("Enter the length of Second String: ");
+	scanf("%d",&n);
+	char B[n];
+	printf("Enter the second string: ");
+	scanf("%s",B);
+	printf("Shortest Supersequence Length is %d ",SCS(A,B,m,n));
+	return 0;
+}
