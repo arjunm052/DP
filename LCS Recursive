@@ -1,18 +1,32 @@
 #include<stdio.h>
 #define MAX(a,b) (a>b) ? a : b;
+int dp[100][100];
+
+void initialize(){
+	int i,j;
+	for(i=0;i<100;i++){
+		for(j=0;j<100;j++){
+			dp[i][j]=-1;
+		}
+	}
+}
 
 int lcs(char *X,char *Y,int m,int n){
 	if(m==0 || n==0)
 	return 0;
 	
+	if(dp[m][n]!=-1)
+	return dp[m][n];
+	
 	if(X[m-1]==Y[n-1])
-	return 1+lcs(X,Y,m-1,n-1);
+	return dp[m][n]=1+lcs(X,Y,m-1,n-1);
 	
 	else
-	return MAX(lcs(X,Y,m-1,n),lcs(X,Y,m,n-1));
+	return dp[m][n]=MAX(lcs(X,Y,m-1,n),lcs(X,Y,m,n-1));
 }
 
 int main(){
+	initialize();
 	int m,n,i;
 	printf("Enter the length of First string: ");
 	scanf("%d",&m);
