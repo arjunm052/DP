@@ -1,0 +1,29 @@
+#include<stdio.h>
+#define MAX(a,b) (a>b) ? a : b;
+
+int lcs(char *X,char *Y,int m,int n){
+	if(m==0 || n==0)
+	return 0;
+	
+	if(X[m-1]==Y[n-1])
+	return 1+lcs(X,Y,m-1,n-1);
+	
+	else
+	return MAX(lcs(X,Y,m-1,n),lcs(X,Y,m,n-1));
+}
+
+int main(){
+	int m,n,i;
+	printf("Enter the length of First string: ");
+	scanf("%d",&m);
+	char A[m];
+	printf("Enter the First String: ");
+	scanf("%s",A);
+	printf("Enter the length of Second String: ");
+	scanf("%d",&n);
+	char B[n];
+	printf("Enter the second string: ");
+	scanf("%s",B);
+	printf("LCS is %d",lcs(A,B,m,n));
+	return 0;
+}
