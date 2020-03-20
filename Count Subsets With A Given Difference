@@ -21,35 +21,33 @@ int sum(int arr[],int n){
 	return res;
 }
 
-int countsubsetdiff(int arr[],int n,int diff){
-	int i,j,count=0;
-	int range=sum(arr,n);
-	bool dp[n+1][range+1];
+int countsubsetsum(int arr[],int n,int sum){
+	int i,j;
+	int dp[n+1][sum+1];
 	
-	//Initialize
+	//Initialization
 	for(i=0;i<=n;i++)
-	dp[i][0]=true;
-	for(i=1;i<=range;i++)
-	dp[0][i]=false;
+	dp[i][0]=1;
+	for(i=1;i<=sum;i++)
+	dp[0][i]=0;
 	
 	for(i=1;i<=n;i++){
-		for(j=1;j<=range;j++){
+		for(j=1;j<=sum;j++){
 			if(arr[i-1]<=j){
-				dp[i][j]=dp[i-1][j] || dp[i-1][j-arr[i-1]];
+				dp[i][j]=dp[i-1][j]+dp[i-1][j-arr[i-1]];
 			}
 			else
-				dp[i][j]=dp[i-1][j];
+			dp[i][j]=dp[i-1][j];
 		}
 	}
 	
-	for(i=0;i<=range/2;i++){
-		if(dp[n][i]==true){
-			int s2=i-diff;
-			if(dp[n][s2]==true)
-			count++;
-		}
-	}
-	return count;
+	return dp[n][sum];
+}
+
+int countsubsetdiff(int arr[],int n,int diff){
+	int range=sum(arr,n);
+	int sum=(range+diff)/2;
+	return countsubsetsum(arr,n,sum);
 }
 
 
