@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdbool.h>
+#define INF 99999;
+
+int dp[1000][1000];
+
+void initialize(){
+	int i,j;
+	for(i=0;i<1000;i++){
+		for(j=0;j<1000;j++){
+			dp[i][j]=-1;
+		}
+	}
+}
+
+bool isPalindrome(char str[],int l,int h){  
+    while (h > l){ 
+        if (str[l++] != str[h--]) 
+        	return false;         
+    } 
+    return true;
+} 
+
+int partpal(char str[],int i,int j){
+	if(i>=j)
+	return 0;
+	
+	if(isPalindrome(str,i,j)==true)
+	return 0;
+	
+	if(dp[i][j]!=-1)
+	return dp[i][j];
+	
+	int min=INF;
+	int k;
+	for(k=i;k<=j-1;k++){
+
+		int left,right;
+		if(dp[i][k]!=-1)
+		left=dp[i][k];
+		else{
+			left=partpal(str,i,k);
+			dp[i][k]=left;
+		}
+		
+		
+		if(dp[k+1][j]!=-1)
+		right=dp[k+1][j];
+		else{
+			right=partpal(str,k+1,j);
+			dp[k+1][j]=right;
+		}
+				
+		int temp=1+left+right;
+				
+		if(temp<min)
+		min=temp;
+	}
+	return dp[i][j]=min;
+}
+
+
+int main(){
+	initialize();
+	int n;
+	printf("Enter the length of the string: ");
+	scanf("%d",&n);
+	char str[n];
+	printf("Enter the string: ");
+	scanf("%s",str);
+	printf("Minimum Partitions: %d",partpal(str,0,n-1));
+	return 0;
+}
