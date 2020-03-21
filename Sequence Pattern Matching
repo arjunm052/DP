@@ -1,0 +1,47 @@
+ #include<stdio.h>
+ #include<stdbool.h>
+ #define MAX(a,b) (a>b) ? a : b;
+ 
+bool sequence(char *X,char *Y,int m,int n){
+ 	int i,j,k=0;
+ 	int dp[m+1][n+1];
+ 	
+ 	//initialization
+ 	for(i=0;i<=m;i++)
+ 	for(j=0;j<=n;j++)
+ 	if(i==0 || j==0)
+ 	dp[i][j]=0;
+ 	
+ 	for(i=1;i<=m;i++){
+ 		for(j=1;j<=n;j++){
+ 			if(X[i-1]==Y[j-1])
+ 			dp[i][j]=1+dp[i-1][j-1];
+ 			else
+ 			dp[i][j]=MAX(dp[i-1][j],dp[i][j-1]);
+		 }
+	 }
+ 	if(n==dp[m][n])
+ 	return true;
+ 	else
+ 	return false;
+}
+ 
+ int main(){
+ 	int m,n;
+ 	printf("Enter the size of the main string: ");
+ 	scanf("%d",&m);
+ 	char X[m];
+ 	printf("Enter the main string: ");
+ 	scanf("%s",X);
+ 	printf("Enter the size of the sequence string: ");
+ 	scanf("%d",&n);
+ 	char Y[n];
+ 	printf("Enter the sequence to look for: ");
+ 	scanf("%s",Y);
+ 	bool res=sequence(X,Y,m,n);
+ 	if(res)
+ 	printf("Sequence Found");
+ 	else
+ 	printf("Sequence Not Found");
+ 	return 0;
+ }
