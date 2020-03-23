@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<stdbool.h>
+
+int dp[100][100][2];
+
+void initialize(){
+	int i,j,k;
+	for(i=0;i<100;i++){
+		for(j=0;j<100;j++){
+			for(k=0;k<2;k++){
+				dp[i][j][k]=-1;
+			}
+		}
+	}
+}
+
+int boolean(char exp[],int i,int j,int isTrue){
+	if(i>j)
+	return 0;
+	
+	if(i==j){
+		if(isTrue==1){
+			if(exp[i]=='T')
+			return 1;
+			else
+			return 0;
+		}
+		else{
+			if(exp[i]=='F')
+			return 1;
+			else
+			return 0;
+		}
+	}
+	
+	if(dp[i][j][isTrue]!=-1)
+	return dp[i][j][isTrue];
+	
+	int k,ans=0;
+	
+	for(k=i+1;k<=j-1;k=k+2){
+		int LT = boolean(exp,i,k-1,1);
+		int LF = boolean(exp,i,k-1,0);
+		int RT = boolean(exp,k+1,j,1);
+		int RF = boolean(exp,k+1,j,0);
+		
+		if(exp[k]=='&'){
+			if(isTrue==1){
+				ans=ans + LT*RT;
+			}
+			else{
+				ans=ans + LF*RT + LF*RF + LT*RF;
+			}
+		}
+		
+		else if(exp[k]=='|'){
+			if(isTrue==1){
+				ans=ans + LT*RT + LT*RF + LF*RT;
+			}
+			else{
+				ans=ans + LF*RF;
+			}
+		}
+		
+		else if(exp[k]=='^'){
+			if(isTrue==1){
+				ans=ans + LT*RF + LF*RT;
+			}
+			else{
+				ans=ans + LF*RF + LT*RT;
+			}
+		}
+	}
+	
+	return dp[i][j][isTrue]=ans;
+}
+
+int main(){
+	initialize();
+	int n;
+	printf("Enter the length of the expression: ");
+	scanf("%d",&n);
+	char exp[n];
+	printf("Enter the expression: ");
+	scanf("%s",exp);
+	printf("Given expression evaluates to True in %d ways",boolean(exp,0,n-1,true));
+	return 0;
+}
